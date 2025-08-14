@@ -15,6 +15,7 @@ This challenge is designed to assess your skills in Android development, Kotlin 
    - Display a list of products with image, name, price, and rating
    - Implement smooth scrolling with RecyclerView
    - Show loading states and error handling
+   - Add "Add to Cart" buttons on product items
 
 2. **Search Functionality**
    - Add a search bar to filter products by name
@@ -25,13 +26,29 @@ This challenge is designed to assess your skills in Android development, Kotlin 
    - Show detailed product information (image, name, description, price, rating)
    - Navigate from product list to detail screen
    - Add/remove product from favorites
+   - Add "Add to Cart" with quantity selector
+   - Show stock status and availability
 
-4. **Favorites Management**
+4. **Shopping Cart**
+   - View all items added to cart with quantities
+   - Modify item quantities (increase/decrease/remove)
+   - Calculate and display subtotal, tax, and total
+   - Persist cart data locally
+   - Empty cart state with call-to-action
+
+5. **Checkout Process**
+   - Multi-step checkout flow (Address → Payment → Review)
+   - Form validation for shipping address
+   - Payment method selection (mock)
+   - Order summary and confirmation
+   - Success screen with order details
+
+6. **Favorites Management**
    - Allow users to mark products as favorites
    - Persist favorites locally (SharedPreferences, Room, or SQLite)
    - Show favorite status in both list and detail views
 
-5. **Error Handling**
+7. **Error Handling**
    - Handle network errors gracefully
    - Show appropriate error messages to users
    - Implement retry mechanisms where appropriate
@@ -55,6 +72,11 @@ Use the following REST API endpoints:
 - `GET /products/{id}` - Get specific product
 - `GET /products/categories` - Get all categories
 - `GET /products/category/{category}` - Get products in category
+- `GET /carts` - Get all carts
+- `GET /carts/{id}` - Get specific cart
+- `POST /carts` - Add new cart
+- `PUT /carts/{id}` - Update cart
+- `DELETE /carts/{id}` - Delete cart
 
 **Product Object Structure**:
 ```json
@@ -72,16 +94,44 @@ Use the following REST API endpoints:
 }
 ```
 
+**Cart Object Structure**:
+```json
+{
+  "id": 1,
+  "userId": 1,
+  "date": "2020-03-02T00:00:00.000Z",
+  "products": [
+    {
+      "productId": 1,
+      "quantity": 4
+    },
+    {
+      "productId": 2,
+      "quantity": 1
+    }
+  ]
+}
+```
+
 ## Bonus Features (Nice to Have)
 If you complete the core features early, consider implementing:
 
-- **Category Filtering**: Filter products by categories
-- **Sort Options**: Sort by price, rating, or name
-- **Pull to Refresh**: Refresh product list
-- **Dark Mode Support**: Implement theme switching
-- **Unit Tests**: Write tests for ViewModels and repositories
-- **Offline Support**: Cache data for offline viewing
-- **Animations**: Add meaningful animations and transitions
+**E-commerce Enhancements:**
+- **Category Filtering**: Filter products by categories with chip selections
+- **Sort Options**: Sort by price, rating, name, or newest
+- **Product Variants**: Size/color selection for products
+- **Wishlist Sharing**: Share favorite products
+- **Order History**: View past orders and reorder items
+- **Product Reviews**: Add/view user reviews and ratings
+
+**Technical Enhancements:**
+- **Pull to Refresh**: Refresh product and cart data
+- **Dark Mode Support**: Complete theme switching
+- **Offline Support**: Cache products and cart for offline viewing
+- **Push Notifications**: Order updates and promotional notifications
+- **Analytics**: Track user interactions and cart abandonment
+- **Unit Tests**: Comprehensive testing for ViewModels and repositories
+- **Animations**: Smooth transitions, cart animations, and micro-interactions
 
 ## Project Structure
 Your project should follow a clean architecture pattern. Suggested structure:
@@ -91,20 +141,22 @@ app/
 ├── src/main/java/com/yourname/productcatalog/
 │   ├── data/
 │   │   ├── api/           # API interfaces and models
-│   │   ├── local/         # Local data storage
+│   │   ├── local/         # Local data storage (Room, SharedPrefs)
 │   │   └── repository/    # Repository implementations
 │   ├── domain/
-│   │   ├── model/         # Domain models
+│   │   ├── model/         # Domain models (Product, Cart, Order)
 │   │   ├── repository/    # Repository interfaces
 │   │   └── usecase/       # Business logic use cases
 │   ├── presentation/
 │   │   ├── ui/
 │   │   │   ├── productlist/
 │   │   │   ├── productdetail/
+│   │   │   ├── cart/      # Shopping cart screen
+│   │   │   ├── checkout/  # Checkout flow screens
 │   │   │   └── favorites/
-│   │   ├── viewmodel/
-│   │   └── adapter/
-│   └── utils/             # Utility classes
+│   │   ├── viewmodel/     # ViewModels for each feature
+│   │   └── adapter/       # RecyclerView adapters
+│   └── utils/             # Utility classes and extensions
 ```
 
 ## Evaluation Criteria
@@ -181,6 +233,19 @@ Test the API endpoints in your browser or Postman before implementation.
 4. **Keep it simple**: Focus on clean, working code over complex features
 5. **Test frequently**: Run your app often to catch issues early
 6. **Document decisions**: Brief comments on architectural choices help
+
+### Time Allocation Guidance
+
+Suggest this breakdown to candidates:
+- **30 minutes**: Project setup and API exploration
+- **90 minutes**: Core functionality (product list, navigation, detail screen)
+- **45 minutes**: Search and favorites features
+- **60 minutes**: Shopping cart implementation
+- **45 minutes**: Basic checkout flow (address form + order summary)
+- **30 minutes**: Error handling and polish
+- **20 minutes**: Bonus features (if time permits)
+
+**Note**: Cart and checkout can be implemented with local storage only - API integration is optional for the cart endpoints.
 
 ## Questions?
 If you have any questions about the requirements or encounter issues with the API, please reach out to [contact-email] within the first hour of starting the challenge.
