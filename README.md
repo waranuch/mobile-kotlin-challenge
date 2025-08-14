@@ -58,9 +58,15 @@ This challenge is designed to assess your skills in Android development, Kotlin 
 - **Minimum SDK**: API 24 (Android 7.0)
 - **Target SDK**: API 34 or latest
 - **Architecture**: MVVM pattern recommended (MVP acceptable)
+- **UI Framework**: Choose one of:
+  - **Jetpack Compose** (recommended) - Modern declarative UI
+  - **Traditional XML Views** - Classic Android UI approach
+  - **Hybrid** - Mix of both approaches
 - **Networking**: Retrofit + OkHttp (or Ktor)
-- **Image Loading**: Glide, Picasso, or Coil
-- **Navigation**: Navigation Component or traditional fragment navigation
+- **Image Loading**: 
+  - **For Compose**: Coil (recommended) or Glide
+  - **For XML Views**: Glide, Picasso, or Coil
+- **Navigation**: Navigation Component (supports both Compose and Fragment navigation)
 
 ### API Specification
 Use the following REST API endpoints:
@@ -149,15 +155,71 @@ app/
 │   │   └── usecase/       # Business logic use cases
 │   ├── presentation/
 │   │   ├── ui/
-│   │   │   ├── productlist/
+│   │   │   ├── productlist/     # Traditional XML-based screens
 │   │   │   ├── productdetail/
-│   │   │   ├── cart/      # Shopping cart screen
-│   │   │   ├── checkout/  # Checkout flow screens
-│   │   │   └── favorites/
-│   │   ├── viewmodel/     # ViewModels for each feature
-│   │   └── adapter/       # RecyclerView adapters
-│   └── utils/             # Utility classes and extensions
+│   │   │   ├── cart/
+│   │   │   ├── checkout/
+│   │   │   ├── favorites/
+│   │   │   ├── compose/         # Compose-based screens (optional)
+│   │   │   │   ├── productlist/ # Compose ProductList implementation
+│   │   │   │   ├── cart/        # Compose Cart implementation  
+│   │   │   │   ├── theme/       # Compose theme system
+│   │   │   │   └── navigation/  # Compose navigation setup
+│   │   │   └── theme/           # Traditional XML themes
+│   │   ├── viewmodel/           # ViewModels for each feature
+│   │   └── adapter/             # RecyclerView adapters (for XML views)
+│   └── utils/                   # Utility classes and extensions
 ```
+
+**UI Implementation Options:**
+- **Option 1**: Pure Compose implementation using `ComposeMainActivity`
+- **Option 2**: Traditional XML views using `MainActivity`  
+- **Option 3**: Hybrid approach mixing both as needed
+
+## UI Framework Guide
+
+### 🚀 **Jetpack Compose Implementation** (Recommended)
+We've provided starter Compose implementations to demonstrate modern Android development:
+
+**What's Included:**
+- `ComposeMainActivity.kt` - Compose-based main activity
+- `ProductListScreen.kt` - Complete product list with search and cart functionality
+- `CartScreen.kt` - Shopping cart with quantity controls and checkout
+- `ProductCatalogNavigation.kt` - Navigation setup for Compose screens
+- Material Design 3 theme system with dark mode support
+- Loading, error, and empty states
+- Preview functions for UI development
+
+**Key Features Demonstrated:**
+- Declarative UI with Compose
+- State hoisting and management
+- Navigation Compose integration
+- Material Design 3 components
+- AsyncImage for network images
+- Pull-to-refresh with accompanist
+- Responsive design patterns
+
+**To Use Compose Implementation:**
+1. Update `AndroidManifest.xml` to use `ComposeMainActivity` as launcher
+2. Implement ViewModels to provide state to Compose screens  
+3. Add dependency injection for data repositories
+4. Extend the provided screens as needed
+
+### 📱 **Traditional XML Views Implementation**
+Classic Android development approach with the existing setup:
+
+**What's Included:**
+- `MainActivity.kt` - Traditional activity with toolbar
+- XML layouts for all screens (product list, cart, checkout, etc.)
+- Navigation Component with fragment-based navigation
+- RecyclerView adapters and ViewBinding setup
+- Material Design styling with themes
+
+### 🔄 **Hybrid Approach**
+Mix both approaches as needed:
+- Use Compose for new screens or complex UI
+- Keep XML views for simpler screens or team familiarity
+- Interop between Compose and Views using ComposeView
 
 ## Evaluation Criteria
 
@@ -180,10 +242,19 @@ app/
 - App doesn't crash under normal usage
 
 ### UI/UX Implementation (20%)
-- Material Design guidelines adherence
+- Material Design 3 guidelines adherence
 - Responsive layouts for different screen sizes
 - Proper loading states and user feedback
 - Intuitive navigation
+- **Compose-specific** (if chosen):
+  - Effective state management and composition
+  - Proper use of remember, LaunchedEffect, and side effects
+  - Performance optimization with stable classes
+  - Well-structured Composable hierarchy
+- **XML Views-specific** (if chosen):
+  - Efficient RecyclerView implementation
+  - Proper ViewBinding/DataBinding usage
+  - Fragment lifecycle management
 
 ## Setup Instructions
 
